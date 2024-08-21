@@ -73,7 +73,7 @@ class MicVolumePlugin: FlutterPlugin, MethodCallHandler,ActivityAware{
     }
 
     private fun startRecording() {
-        if (recorder == null) {
+        
             recorder = MediaRecorder().apply {
                 setAudioSource(MediaRecorder.AudioSource.MIC)
                 setOutputFormat(MediaRecorder.OutputFormat.DEFAULT) // No need to set output file or encoder
@@ -82,7 +82,6 @@ class MicVolumePlugin: FlutterPlugin, MethodCallHandler,ActivityAware{
                 prepare()
                 start()
             }
-        }
     }
 
     private fun stopRecording() {
@@ -93,7 +92,7 @@ class MicVolumePlugin: FlutterPlugin, MethodCallHandler,ActivityAware{
         recorder = null
     }
 
-    private fun getMicLevel(): Float {
+    private fun getMicLevel(): Double {
         return recorder?.maxAmplitude?.toDouble()?.div(32767) ?: 0.0
     }
 

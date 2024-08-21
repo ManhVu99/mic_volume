@@ -71,8 +71,11 @@ public class MicVolumePlugin: NSObject, FlutterPlugin {
 
     private func getMicLevel() -> Double {
         recorder?.updateMeters()
-        let averagePower = Double(recorder?.averagePower(forChannel: 0) ?? -160)
-        let volume = Double(floatLiteral: pow(10.0, averagePower / 20.0))
-        return volume
+        let minDb: Float = -160.0 // Minimum decibel level, representing silence
+        let level = recorder?.averagePower(forChannel: 0) ?? minDb
+
+        // Normalize the dB value to a range between 0.0 (silent) and 1.0 (maximum)
+        let normalizedLevel = (level - minDb) / -minDb
+        return Double(normalizedLevel)
     }
 }

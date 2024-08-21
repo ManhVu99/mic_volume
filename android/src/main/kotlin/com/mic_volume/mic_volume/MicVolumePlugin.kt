@@ -76,9 +76,9 @@ class MicVolumePlugin: FlutterPlugin, MethodCallHandler,ActivityAware{
         if (recorder == null) {
             recorder = MediaRecorder().apply {
                 setAudioSource(MediaRecorder.AudioSource.MIC)
-                setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-                setOutputFile("/dev/null")
+                setOutputFormat(MediaRecorder.OutputFormat.DEFAULT) // No need to set output file or encoder
+                setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+                setOutputFile("/dev/null") // No recording, just checking levels
                 prepare()
                 start()
             }
@@ -94,7 +94,7 @@ class MicVolumePlugin: FlutterPlugin, MethodCallHandler,ActivityAware{
     }
 
     private fun getMicLevel(): Float {
-        return recorder?.maxAmplitude?.toFloat() ?: 0.0f
+        return recorder?.maxAmplitude?.toDouble()?.div(32767) ?: 0.0
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {

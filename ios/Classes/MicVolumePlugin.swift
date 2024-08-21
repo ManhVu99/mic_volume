@@ -7,7 +7,7 @@ public class MicVolumePlugin: NSObject, FlutterPlugin {
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "mic_volume", binaryMessenger: registrar.messenger())
-    let instance = SwiftMicVolumePlugin()
+    let instance = MicVolumePlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
@@ -69,8 +69,8 @@ public class MicVolumePlugin: NSObject, FlutterPlugin {
         recorder = nil
     }
 
-    private func getMicLevel() -> Float {
+    private func getMicLevel() -> Double {
         recorder?.updateMeters()
-        return recorder?.averagePower(forChannel: 0) ?? 0.0
+        return Double(recorder?.averagePower(forChannel: 0) ?? 0.0)
     }
 }

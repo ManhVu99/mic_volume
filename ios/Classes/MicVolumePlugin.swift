@@ -71,6 +71,8 @@ public class MicVolumePlugin: NSObject, FlutterPlugin {
 
     private func getMicLevel() -> Double {
         recorder?.updateMeters()
-        return Double(recorder?.averagePower(forChannel: 0) ?? 0.0)
+        let averagePower = Double(recorder?.averagePower(forChannel: 0) ?? -160)
+        let volume = Double(floatLiteral: pow(10.0, averagePower / 20.0))
+        return volume
     }
 }
